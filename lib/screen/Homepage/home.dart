@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_db/screen/Homepage/home_bloc.dart';
 import 'package:movie_db/screen/Homepage/home_event.dart';
-import 'package:movie_db/widget/card_now_playong_movie.dart';
+import 'package:movie_db/widget/card_now_playing_movie.dart';
 
 import 'home_state.dart';
 
@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             return cardNowPlayingMovie(
-                                state.listNowPlayingMovie[index]);
+                                state.listNowPlayingMovie[index], context);
                           },
                           itemCount: state.listNowPlayingMovie.length,
                           scrollDirection: Axis.horizontal,
@@ -67,8 +67,8 @@ class _HomePageState extends State<HomePage> {
                         height: 330,
                         child: ListView.builder(
                           itemBuilder: (context, index) {
-                            return cardPopularMovie(
-                                state.listPopularMovie[index]);
+                            return cardNowPlayingMovie(
+                                state.listPopularMovie[index], context);
                           },
                           itemCount: state.listPopularMovie.length,
                           scrollDirection: Axis.horizontal,

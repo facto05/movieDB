@@ -1,7 +1,7 @@
 import '../model/movie.dart';
 
-List<NowPlayingMovie> createNowPlayingMovieList(List data) {
-  List<NowPlayingMovie> list = [];
+List<Movie> createNowPlayingMovieList(List data) {
+  List<Movie> list = [];
   for (int i = 0; i < 6; i++) {
     var id = data[i]["id"];
     String title = data[i]["title"];
@@ -12,8 +12,8 @@ List<NowPlayingMovie> createNowPlayingMovieList(List data) {
     String overview = data[i]["overview"];
     String releaseDate = data[i]["release_date"];
 
-    NowPlayingMovie movie = NowPlayingMovie(id, title, posterPath,
-        backdropImage, originalTitle, voteAverage, overview, releaseDate);
+    Movie movie = Movie(id, title, posterPath, backdropImage, originalTitle,
+        voteAverage, overview, releaseDate);
     list.add(movie);
   }
   return list;

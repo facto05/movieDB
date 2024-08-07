@@ -1,8 +1,9 @@
-//to clasify JSON Data to Model for Movie Detail
+//Model for Movie Detail
+
 class MovieDetail {
   int id;
   final String originalTitle;
-  final List<String> genres;
+  final List<Genre> genres;
   final String synopsis;
   final String posterPath;
   final String backdropPath;
@@ -12,8 +13,8 @@ class MovieDetail {
       this.posterPath, this.backdropPath, this.voteAverage);
 }
 
-//to clasify JSON Data to Model for Now Playing Movie
-class NowPlayingMovie {
+//Model for List Movie
+class Movie {
   int id;
   String title;
   String posterPath;
@@ -23,21 +24,16 @@ class NowPlayingMovie {
   String overview;
   String releaseDate;
 
-  NowPlayingMovie(this.id, this.title, this.posterPath, this.backdropPath,
+  Movie(this.id, this.title, this.posterPath, this.backdropPath,
       this.originalTitle, this.voteAverage, this.overview, this.releaseDate);
 }
 
-//to clasify JSON Data to Model for Popular Movie
-class PopularMovie {
-  int id;
-  String title;
-  String posterPath;
-  String backdropPath;
-  String originalTitle;
-  double voteAverage;
-  String overview;
-  String releaseDate;
+class Genre {
+  final int id;
+  final String name;
 
-  PopularMovie(this.id, this.title, this.posterPath, this.backdropPath,
-      this.originalTitle, this.voteAverage, this.overview, this.releaseDate);
+  Genre({required this.id, required this.name});
+  factory Genre.fromJson(Map<String, dynamic> json) {
+    return Genre(id: json["id"], name: json["name"]);
+  }
 }

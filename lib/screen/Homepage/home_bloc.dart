@@ -15,9 +15,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> _onPageLoaded(
       HomeLoadedEvent event, Emitter<HomeState> emit) async {
-    List<NowPlayingMovie> listNowPlayingMovie =
-        await getNowPlayingMovies() ?? [];
-    List<PopularMovie> listPopularMovie = await getPopularMovies() ?? [];
+    List<Movie> listNowPlayingMovie = await getNowPlayingMovies() ?? [];
+    List<Movie> listPopularMovie = await getPopularMovies() ?? [];
     emit(HomeState.formloadSuccess(listNowPlayingMovie, listPopularMovie));
   }
 }

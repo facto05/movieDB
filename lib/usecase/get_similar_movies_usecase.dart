@@ -1,8 +1,8 @@
 import '../model/movie.dart';
 
-List<Movie> createPopularMovieList(List data) {
+List<Movie> createSimilarMovies(List data) {
   List<Movie> list = [];
-  for (int i = 0; i < 20; i++) {
+  for (int i = 0; i < data.length; i++) {
     var id = data[i]["id"];
     String title = data[i]["title"];
     String posterPath = data[i]["poster_path"];

@@ -6,14 +6,14 @@ import 'package:movie_db/usecase/get_popular_movie_usecase.dart';
 import '../model/movie.dart';
 import '../utils/constant.dart';
 
-Future<List<PopularMovie>?> getPopularMovies() async {
-  const String nowPlaying =
+Future<List<Movie>?> getPopularMovies() async {
+  const String popularMovie =
       'https://api.themoviedb.org/3/movie/popular?api_key=${Constant.API_KEY}&page=1';
 
   var httpClient = HttpClient();
   try {
     // Make the call
-    var request = await httpClient.getUrl(Uri.parse(nowPlaying));
+    var request = await httpClient.getUrl(Uri.parse(popularMovie));
     var response = await request.close();
     if (response.statusCode == HttpStatus.ok) {
       var jsonResponse = await response.transform(utf8.decoder).join();
@@ -22,7 +22,7 @@ Future<List<PopularMovie>?> getPopularMovies() async {
       // Get the result list
       List results = data["results"];
       // Get the Movie list
-      List<PopularMovie> movieList = createPopularMovieList(results);
+      List<Movie> movieList = createPopularMovieList(results);
       // Print the results.
       return movieList;
     } else {

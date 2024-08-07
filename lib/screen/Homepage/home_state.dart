@@ -1,8 +1,8 @@
 import 'package:movie_db/model/movie.dart';
 
 class HomeState {
-  List<NowPlayingMovie> listNowPlayingMovie;
-  List<PopularMovie> listPopularMovie;
+  List<Movie> listNowPlayingMovie;
+  List<Movie> listPopularMovie;
 
   HomeState._(
       {this.listNowPlayingMovie = const [], this.listPopularMovie = const []});

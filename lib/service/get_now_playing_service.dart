@@ -5,7 +5,7 @@ import '../model/movie.dart';
 import '../usecase/get_now_playing_usecase.dart';
 import '../utils/constant.dart';
 
-Future<List<NowPlayingMovie>?> getNowPlayingMovies() async {
+Future<List<Movie>?> getNowPlayingMovies() async {
   const String nowPlaying =
       'https://api.themoviedb.org/3/movie/now_playing?api_key=${Constant.API_KEY}&page=1';
 
@@ -21,7 +21,7 @@ Future<List<NowPlayingMovie>?> getNowPlayingMovies() async {
       // Get the result list
       List results = data["results"];
       // Get the Movie list
-      List<NowPlayingMovie> movieList = createNowPlayingMovieList(results);
+      List<Movie> movieList = createNowPlayingMovieList(results);
       // Print the results.
       return movieList;
     } else {
