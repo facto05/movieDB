@@ -1,5 +1,6 @@
 import 'package:movie_db/model/movie.dart';
 
+//parsing JSON to Data Type
 MovieDetail createMovieDetail(var data) {
   var id = data["id"];
   String originalTitle = data["title"];

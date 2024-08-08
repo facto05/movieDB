@@ -1,5 +1,6 @@
 import '../model/movie.dart';
 
+//parsing JSON to Data Type List
 List<Movie> createNowPlayingMovieList(List data) {
   List<Movie> list = [];
   for (int i = 0; i < 6; i++) {

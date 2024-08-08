@@ -2,13 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:movie_db/usecase/get_similar_movies_usecase.dart';
+import 'package:movie_db/utils/constant.dart';
 
 import '../model/movie.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<Movie>?> getSimilarMovies(String genreList) async {
+Future<List<Movie>?> getFavoriteMovies() async {
   String movieUrl =
-      'https://api.themoviedb.org/3/discover/movie?with_genres=$genreList';
+      'https://api.themoviedb.org/3/account/${Constant.accountId}/favorite/movies';
 
   try {
     // Make the call

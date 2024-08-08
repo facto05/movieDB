@@ -28,6 +28,7 @@ class Movie {
       this.originalTitle, this.voteAverage, this.overview, this.releaseDate);
 }
 
+//Model for Genre
 class Genre {
   final int id;
   final String name;

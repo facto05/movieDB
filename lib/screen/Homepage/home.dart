@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_db/screen/Homepage/home_bloc.dart';
 import 'package:movie_db/screen/Homepage/home_event.dart';
+import 'package:movie_db/screen/Profile/profile_page.dart';
+import 'package:movie_db/utils/show_snackbar_message.dart';
 import 'package:movie_db/widget/card_now_playing_movie.dart';
 
 import 'home_state.dart';
@@ -18,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => HomeBloc()..add(HomeLoadedEvent()),
-        child: BlocBuilder<HomeBloc, HomeState>(
+        child: BlocConsumer<HomeBloc, HomeState>(
           builder: (context, state) {
             if (state.listNowPlayingMovie.isEmpty) {
               return Container(
@@ -31,10 +33,15 @@ class _HomePageState extends State<HomePage> {
             } else {
               return Scaffold(
                 appBar: AppBar(
-                  title: Text('MovieDB'),
+                  title: const Text('MovieDB'),
                   actions: [
                     IconButton.filled(
-                        onPressed: () {}, icon: const Icon(Icons.people))
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ProfilePage(),
+                            )),
+                        icon: const Icon(Icons.person))
                   ],
                 ),
                 body: Container(
@@ -78,6 +85,13 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               );
+            }
+          },
+          listener: (context, state) {
+            if (state.isWatchlist) {
+              showSnackbarMessage(context, 'Berhasil ditambahkan ke Wishlist');
+            } else if (state.isFavorite) {
+              showSnackbarMessage(context, 'Berhasil ditambahkan ke Favorite');
             }
           },
         ));

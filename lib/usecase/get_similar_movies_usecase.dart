@@ -1,6 +1,7 @@
 import '../model/movie.dart';
 
-List<Movie> createSimilarMovies(List data) {
+//parsing JSON to Data Type List
+List<Movie> createListMovies(List data) {
   List<Movie> list = [];
   for (int i = 0; i < data.length; i++) {
     var id = data[i]["id"];
