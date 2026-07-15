@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_db/model/movie.dart';
 import 'package:movie_db/screen/Profile/profile_event.dart';
 import 'package:movie_db/screen/Profile/profile_state.dart';
 import 'package:movie_db/service/get_watchlist_service.dart';

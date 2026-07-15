@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:movie_db/screen/Homepage/home.dart';
 
 void main() {
@@ -11,7 +10,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShadApp(
+    return MaterialApp(
       title: 'MovieDB',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

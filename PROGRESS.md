@@ -10,6 +10,7 @@ Flutter movie discovery app using TMDB API with BLoC pattern.
 - flutter_bloc: ^8.1.6
 - http: ^1.1.0
 - cupertino_icons: ^1.0.2
+- shadcn_flutter: ^0.1.0
 
 ---
 
@@ -92,10 +93,79 @@ Flutter movie discovery app using TMDB API with BLoC pattern.
 - [x] Add error/retry state widgets
 - [x] Implement dark mode toggle
 
-### Phase 5: Polish & Testing (Priority: LOW)
-- [ ] Add unit tests for models & API parsing
-- [ ] Add widget tests for key screens
-- [ ] Performance optimization (image caching, list virtualization)
+### Phase 5: Search & Filter (Priority: HIGH)
+- [ ] Search movies by title (`/search/movie`)
+- [ ] Genre filter (fetch `/genre/movie/list`, chips UI)
+- [ ] Toggle add/remove from favorites & watchlist
+- [ ] Search page with BLoC pattern
+- [ ] Debounced search input
+
+### Phase 6: Movie Details Enhancement (Priority: HIGH)
+- [ ] Cast & crew info (`/movie/{id}/credits`)
+- [ ] Actors page with filmography
+- [ ] Trailers (`/movie/{id}/videos`, YouTube player)
+- [ ] Reviews (`/movie/{id}/reviews`)
+- [ ] Vote count & popularity display
+
+### Phase 7: More Categories (Priority: MEDIUM)
+- [ ] Upcoming movies (`/movie/upcoming`)
+- [ ] Top Rated movies (`/movie/top_rated`)
+- [ ] Pagination for all movie lists
+- [ ] Tab navigation for categories
+
+### Phase 8: Polish (Priority: LOW)
+- [ ] Infinite scroll / load more
+- [ ] Share movie (`share_plus`)
+- [ ] Local caching (`cached_network_image`)
+- [ ] Actor pages with filmography
+
+---
+
+## New Dependencies (Phase 5-8)
+
+```yaml
+share_plus: ^7.0.0              # Share movie details
+cached_network_image: ^3.3.0    # Image caching & placeholders
+youtube_player_flutter: ^8.0.0  # Play trailers
+```
+
+---
+
+## New Files Structure (Phase 5-8)
+
+```
+lib/
+├── model/
+│   ├── movie.dart
+│   ├── cast.dart              ← NEW
+│   ├── trailer.dart           ← NEW
+│   ├── review.dart            ← NEW
+│   └── genre.dart             ← NEW
+├── screen/
+│   ├── Search/
+│   │   ├── search_page.dart   ← NEW
+│   │   ├── search_bloc.dart   ← NEW
+│   │   ├── search_event.dart  ← NEW
+│   │   └── search_state.dart  ← NEW
+│   ├── Cast/
+│   │   ├── cast_page.dart     ← NEW
+│   │   └── cast_bloc.dart     ← NEW
+│   └── ...
+├── widget/
+│   ├── card_cast_member.dart  ← NEW
+│   ├── card_trailer.dart      ← NEW
+│   ├── card_review.dart       ← NEW
+│   └── genre_chip.dart        ← NEW
+└── service/
+    ├── api_client.dart
+    ├── get_search_service.dart    ← NEW
+    ├── get_cast_service.dart      ← NEW
+    ├── get_trailers_service.dart  ← NEW
+    ├── get_reviews_service.dart   ← NEW
+    ├── get_genres_service.dart    ← NEW
+    ├── get_upcoming_service.dart  ← NEW
+    └── get_top_rated_service.dart ← NEW
+```
 
 ---
 
@@ -145,8 +215,12 @@ final darkTheme = ShadThemeData.dark();
 | 2026-07-15 | Phase 2 | ✅ Complete | All bugs fixed |
 | 2026-07-15 | Phase 3 | ✅ Complete | Models & states improved |
 | 2026-07-15 | Phase 4 | ✅ Complete | UI/UX overhaul with shadcn_flutter |
+| 2026-07-15 | Phase 5 | ⏳ Pending | Search & Filter |
+| 2026-07-15 | Phase 6 | ⏳ Pending | Movie Details Enhancement |
+| 2026-07-15 | Phase 7 | ⏳ Pending | More Categories |
+| 2026-07-15 | Phase 8 | ⏳ Pending | Polish |
 
 ---
 
 ## Next Action
-All phases complete. Run `flutter pub get` and test the app.
+Fix `flutter pub get` error, then start Phase 5: Search & Filter.

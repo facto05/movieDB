@@ -66,7 +66,7 @@ class MovieDetailPage extends StatelessWidget {
                           movie.fullBackdropPath,
                           fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => Container(
-                            color: Theme.of(context).colorScheme.surfaceVariant,
+                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
                           ),
                         ),
                         const DecoratedBox(
@@ -101,7 +101,7 @@ class MovieDetailPage extends StatelessWidget {
                                 errorBuilder: (_, __, ___) => Container(
                                   width: 120,
                                   height: 180,
-                                  color: Theme.of(context).colorScheme.surfaceVariant,
+                                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
                                   child: const Icon(Icons.movie, size: 48),
                                 ),
                               ),
@@ -113,7 +113,7 @@ class MovieDetailPage extends StatelessWidget {
                                 children: [
                                   Row(
                                     children: [
-                                      Icon(Icons.star, color: Colors.amber, size: 20),
+                                      const Icon(Icons.star, color: Colors.amber, size: 20),
                                       const SizedBox(width: 4),
                                       Text(
                                         '${movie.voteAverage.toStringAsFixed(1)}/10',

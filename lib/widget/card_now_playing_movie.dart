@@ -28,7 +28,7 @@ Widget cardNowPlayingMovie(Movie movie, BuildContext context) {
                 width: 200,
                 fit: BoxFit.cover,
                 errorBuilder: (_, __, ___) => Container(
-                  color: Theme.of(context).colorScheme.surfaceVariant,
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
                   child: const Center(child: Icon(Icons.movie, size: 48)),
                 ),
               ),
@@ -91,7 +91,7 @@ Widget cardNowPlayingMovieV2(Movie movie, BuildContext context) {
                 width: 200,
                 fit: BoxFit.cover,
                 errorBuilder: (_, __, ___) => Container(
-                  color: Theme.of(context).colorScheme.surfaceVariant,
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
                   child: const Center(child: Icon(Icons.movie, size: 48)),
                 ),
               ),

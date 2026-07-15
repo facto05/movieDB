@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_db/model/movie.dart';
 import 'package:movie_db/screen/Homepage/home_event.dart';
 import 'package:movie_db/screen/Homepage/home_state.dart';
 import 'package:movie_db/service/get_now_playing_service.dart';

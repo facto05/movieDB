@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_db/model/movie.dart';
 import 'package:movie_db/screen/MovieDetail/movie_detail_event.dart';
 import 'package:movie_db/screen/MovieDetail/movie_detail_state.dart';
 import 'package:movie_db/service/get_movie_detail_service.dart';
