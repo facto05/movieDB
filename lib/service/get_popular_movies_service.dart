@@ -1,35 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:movie_db/usecase/get_popular_movie_usecase.dart';
-
 import '../model/movie.dart';
-import '../utils/constant.dart';
+import 'api_client.dart';
 
-Future<List<Movie>?> getPopularMovies() async {
-  const String popularMovie =
-      'https://api.themoviedb.org/3/movie/popular?api_key=${Constant.API_KEY}&page=1';
-
-  var httpClient = HttpClient();
-  try {
-    // Make the call
-    var request = await httpClient.getUrl(Uri.parse(popularMovie));
-    var response = await request.close();
-    if (response.statusCode == HttpStatus.ok) {
-      var jsonResponse = await response.transform(utf8.decoder).join();
-      // Decode the json response
-      var data = jsonDecode(jsonResponse);
-      // Get the result list
-      List results = data["results"];
-      // Get the Movie list
-      List<Movie> movieList = createPopularMovieList(results);
-      // Print the results.
-      return movieList;
-    } else {
-      print("Failed http call.");
-    }
-  } catch (exception) {
-    print(exception.toString());
-  }
-  return null;
+Future<List<Movie>> getPopularMovies() async {
+  final data = await ApiClient.get('/movie/popular?page=1', (json) => json);
+  final results = data['results'] as List;
+  return results.map((e) => Movie.fromJson(e as Map<String, dynamic>)).toList();
 }

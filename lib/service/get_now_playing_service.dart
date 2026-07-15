@@ -1,34 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
 import '../model/movie.dart';
-import '../usecase/get_now_playing_usecase.dart';
-import '../utils/constant.dart';
+import 'api_client.dart';
 
-Future<List<Movie>?> getNowPlayingMovies() async {
-  const String nowPlaying =
-      'https://api.themoviedb.org/3/movie/now_playing?api_key=${Constant.API_KEY}&page=1';
-
-  var httpClient = HttpClient();
-  try {
-    // Make the call
-    var request = await httpClient.getUrl(Uri.parse(nowPlaying));
-    var response = await request.close();
-    if (response.statusCode == HttpStatus.ok) {
-      var jsonResponse = await response.transform(utf8.decoder).join();
-      // Decode the json response
-      var data = jsonDecode(jsonResponse);
-      // Get the result list
-      List results = data["results"];
-      // Get the Movie list
-      List<Movie> movieList = createNowPlayingMovieList(results);
-      // Print the results.
-      return movieList;
-    } else {
-      print("Failed http call.");
-    }
-  } catch (exception) {
-    print(exception.toString());
-  }
-  return null;
+Future<List<Movie>> getNowPlayingMovies() async {
+  final data = await ApiClient.get('/movie/now_playing?page=1', (json) => json);
+  final results = data['results'] as List;
+  return results.map((e) => Movie.fromJson(e as Map<String, dynamic>)).toList();
 }

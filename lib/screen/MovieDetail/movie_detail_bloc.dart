@@ -19,14 +19,22 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
 
   Future<void> _onPageLoaded(
       MovieDetailLoadedEvent event, Emitter<MovieDetailState> emit) async {
-    MovieDetail? movieDetail = await getMovieDetail(event.movieId);
-    String genreList = '${movieDetail?.genres[0].id}';
-    for (int i = 0; i < movieDetail!.genres.length; i++) {
-      if (i > 0) {
-        genreList += '%2C${movieDetail.genres[i].id}';
+    emit(state.copyWith(loading: true, error: null));
+    try {
+      final movieDetail = await getMovieDetail(event.movieId);
+      if (movieDetail == null) {
+        emit(state.copyWith(loading: false, error: 'Movie not found'));
+        return;
       }
+      final genreIds = movieDetail.genres.map((g) => g.id).join('%2C');
+      final similarMovies = await getSimilarMovies(genreIds);
+      emit(state.copyWith(
+        movieDetail: movieDetail,
+        similarMovie: similarMovies,
+        loading: false,
+      ));
+    } catch (e) {
+      emit(state.copyWith(loading: false, error: e.toString()));
     }
-    List<Movie>? similarMovies = await getSimilarMovies(genreList);
-    emit(MovieDetailState.formloadSuccess(movieDetail, similarMovies!));
   }
 }

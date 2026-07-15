@@ -1,10 +1,31 @@
 import 'package:movie_db/model/movie.dart';
 
 class MovieDetailState {
-  MovieDetail? movieDetail;
-  List<Movie> similarMovie;
+  final MovieDetail? movieDetail;
+  final List<Movie> similarMovie;
+  final bool loading;
+  final String? error;
 
-  MovieDetailState._({this.similarMovie = const [], this.movieDetail});
+  const MovieDetailState._({
+    this.similarMovie = const [],
+    this.movieDetail,
+    this.loading = false,
+    this.error,
+  });
+
   MovieDetailState.initial() : this._();
-  MovieDetailState.formloadSuccess(this.movieDetail, this.similarMovie);
+
+  MovieDetailState copyWith({
+    MovieDetail? movieDetail,
+    List<Movie>? similarMovie,
+    bool? loading,
+    String? error,
+  }) {
+    return MovieDetailState._(
+      movieDetail: movieDetail ?? this.movieDetail,
+      similarMovie: similarMovie ?? this.similarMovie,
+      loading: loading ?? this.loading,
+      error: error,
+    );
+  }
 }

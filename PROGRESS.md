@@ -58,24 +58,24 @@ Flutter movie discovery app using TMDB API with BLoC pattern.
 
 ## Improvement Plan
 
-### Phase 1: Security & Foundation (Priority: CRITICAL)
-- [ ] Move API key & token to `--dart-define` / env config
-- [ ] Create single `ApiClient` service using `http` package
-- [ ] Remove all hardcoded tokens from service files
-- [ ] Delete `lib/usecase/` folder entirely
-- [ ] Add `fromJson` factory constructors to `Movie` & `MovieDetail`
+### Phase 1: Security & Foundation (Priority: CRITICAL) ✅
+- [x] Move API key & token to `--dart-define` / env config
+- [x] Create single `ApiClient` service using `http` package
+- [x] Remove all hardcoded tokens from service files
+- [x] Delete `lib/usecase/` folder entirely
+- [x] Add `fromJson` factory constructors to `Movie` & `MovieDetail`
 
-### Phase 2: Bug Fixes (Priority: HIGH)
-- [ ] Fix `home_state.dart` typo (`nomPlayingMovie` → `nowPlayingMovie`)
-- [ ] Replace hardcoded loops with `data.length` checks
-- [ ] Add null checks before force unwrap
-- [ ] Proper error handling with `Either` or exceptions
+### Phase 2: Bug Fixes (Priority: HIGH) ✅
+- [x] Fix `home_state.dart` typo (`nomPlayingMovie` → `nowPlayingMovie`)
+- [x] Replace hardcoded loops with `data.length` checks
+- [x] Add null checks before force unwrap
+- [x] Proper error handling with exceptions
 
-### Phase 3: Model & State Improvements (Priority: MEDIUM)
-- [ ] Make model fields `final`
-- [ ] Add `copyWith` to models
-- [ ] Implement proper loading/error states in all BLoCs
-- [ ] Upgrade `analysis_options.yaml` to stricter lints
+### Phase 3: Model & State Improvements (Priority: MEDIUM) ✅
+- [x] Make model fields `final`
+- [x] Add `copyWith` to models
+- [x] Implement proper loading/error states in all BLoCs
+- [x] Upgrade `analysis_options.yaml` to stricter lints
 
 ### Phase 4: UI/UX with shadcn_flutter (Priority: MEDIUM)
 - [ ] Add `shadcn_flutter` dependency
@@ -141,8 +141,11 @@ final darkTheme = ShadThemeData.dark();
 | Date | Phase | Status | Notes |
 |---|---|---|---|
 | 2026-07-15 | Audit | ✅ Complete | All issues documented |
+| 2026-07-15 | Phase 1 | ✅ Complete | Security & Foundation refactored |
+| 2026-07-15 | Phase 2 | ✅ Complete | All bugs fixed |
+| 2026-07-15 | Phase 3 | ✅ Complete | Models & states improved |
 
 ---
 
 ## Next Action
-Start **Phase 1**: Security & Foundation refactor.
+Start **Phase 4**: UI/UX with shadcn_flutter.

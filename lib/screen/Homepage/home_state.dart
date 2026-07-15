@@ -1,30 +1,39 @@
 import 'package:movie_db/model/movie.dart';
 
 class HomeState {
-  List<Movie> listNowPlayingMovie;
-  List<Movie> listPopularMovie;
-  bool isWatchlist = false;
-  bool isFavorite = false;
+  final List<Movie> listNowPlayingMovie;
+  final List<Movie> listPopularMovie;
+  final bool isWatchlist;
+  final bool isFavorite;
+  final bool loading;
+  final String? error;
 
-  HomeState._(
-      {this.listNowPlayingMovie = const [],
-      this.listPopularMovie = const [],
-      this.isWatchlist = false,
-      this.isFavorite = false});
+  const HomeState._({
+    this.listNowPlayingMovie = const [],
+    this.listPopularMovie = const [],
+    this.isWatchlist = false,
+    this.isFavorite = false,
+    this.loading = false,
+    this.error,
+  });
 
   HomeState.initial() : this._();
 
-  HomeState.formloadSuccess(this.listNowPlayingMovie, this.listPopularMovie);
-
-  HomeState copyWith(
-      {List<Movie>? nomPlayingMovie,
-      List<Movie>? popularMovie,
-      bool? isWatchlist,
-      bool? isFavorite}) {
+  HomeState copyWith({
+    List<Movie>? listNowPlayingMovie,
+    List<Movie>? listPopularMovie,
+    bool? isWatchlist,
+    bool? isFavorite,
+    bool? loading,
+    String? error,
+  }) {
     return HomeState._(
-        listNowPlayingMovie: nomPlayingMovie ?? listNowPlayingMovie,
-        listPopularMovie: popularMovie ?? listPopularMovie,
-        isWatchlist: isWatchlist ?? this.isWatchlist,
-        isFavorite: isFavorite ?? this.isFavorite);
+      listNowPlayingMovie: listNowPlayingMovie ?? this.listNowPlayingMovie,
+      listPopularMovie: listPopularMovie ?? this.listPopularMovie,
+      isWatchlist: isWatchlist ?? this.isWatchlist,
+      isFavorite: isFavorite ?? this.isFavorite,
+      loading: loading ?? this.loading,
+      error: error,
+    );
   }
 }

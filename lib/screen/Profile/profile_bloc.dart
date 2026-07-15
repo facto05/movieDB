@@ -3,7 +3,6 @@ import 'package:movie_db/model/movie.dart';
 import 'package:movie_db/screen/Profile/profile_event.dart';
 import 'package:movie_db/screen/Profile/profile_state.dart';
 import 'package:movie_db/service/get_watchlist_service.dart';
-
 import '../../service/get_favorite_service.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
@@ -13,14 +12,23 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
   Future<void> _onEvent(ProfileEvent event, Emitter<ProfileState> emit) async {
     return switch (event) {
-      final ProfilePageLoaded e => _onPageLoaded(e, emit)
+      final ProfilePageLoaded e => _onPageLoaded(e, emit),
     };
   }
 
   Future<void> _onPageLoaded(
       ProfilePageLoaded event, Emitter<ProfileState> emit) async {
-    List<Movie> watchListMovie = await getWatchListMovies() ?? [];
-    List<Movie> favoriteMovie = await getFavoriteMovies() ?? [];
-    emit(ProfileState.formLoadSuccess(favoriteMovie, watchListMovie));
+    emit(state.copyWith(loading: true, error: null));
+    try {
+      final watchListMovie = await getWatchListMovies();
+      final favoriteMovie = await getFavoriteMovies();
+      emit(state.copyWith(
+        favouriteMovie: favoriteMovie,
+        watchList: watchListMovie,
+        loading: false,
+      ));
+    } catch (e) {
+      emit(state.copyWith(loading: false, error: e.toString()));
+    }
   }
 }

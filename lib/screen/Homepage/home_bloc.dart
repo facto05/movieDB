@@ -5,32 +5,41 @@ import 'package:movie_db/screen/Homepage/home_state.dart';
 import 'package:movie_db/service/get_now_playing_service.dart';
 import 'package:movie_db/service/get_popular_movies_service.dart';
 import 'package:movie_db/service/post_add_favorite_service.dart';
-
 import '../../service/post_add_watchlist_service.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(HomeState.initial()) {
     on<HomeEvent>(_onEvent);
   }
+
   Future<void> _onEvent(HomeEvent event, Emitter<HomeState> emit) async {
     return switch (event) {
       final HomeLoadedEvent e => _onPageLoaded(e, emit),
       final AddWatchlistEvent e => _onAddWatchlistEvent(e, emit),
-      final AddFavoriteEvent e => _onAddFavoriteEvent(e, emit)
+      final AddFavoriteEvent e => _onAddFavoriteEvent(e, emit),
     };
   }
 
   Future<void> _onPageLoaded(
       HomeLoadedEvent event, Emitter<HomeState> emit) async {
-    List<Movie> listNowPlayingMovie = await getNowPlayingMovies() ?? [];
-    List<Movie> listPopularMovie = await getPopularMovies() ?? [];
-    emit(HomeState.formloadSuccess(listNowPlayingMovie, listPopularMovie));
+    emit(state.copyWith(loading: true, error: null));
+    try {
+      final listNowPlaying = await getNowPlayingMovies();
+      final listPopular = await getPopularMovies();
+      emit(state.copyWith(
+        listNowPlayingMovie: listNowPlaying,
+        listPopularMovie: listPopular,
+        loading: false,
+      ));
+    } catch (e) {
+      emit(state.copyWith(loading: false, error: e.toString()));
+    }
   }
 
   Future<void> _onAddWatchlistEvent(
       AddWatchlistEvent event, Emitter<HomeState> emit) async {
     try {
-      bool isWatchlist = await addWatchlistMovies(event.movieId);
+      final isWatchlist = await addWatchlistMovies(event.movieId);
       emit(state.copyWith(isWatchlist: isWatchlist));
       emit(state.copyWith(isWatchlist: false));
     } catch (e) {
@@ -41,7 +50,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Future<void> _onAddFavoriteEvent(
       AddFavoriteEvent event, Emitter<HomeState> emit) async {
     try {
-      bool isFavorite = await addFavoriteMovies(event.movieId);
+      final isFavorite = await addFavoriteMovies(event.movieId);
       emit(state.copyWith(isFavorite: isFavorite));
       emit(state.copyWith(isFavorite: false));
     } catch (e) {
