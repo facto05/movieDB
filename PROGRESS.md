@@ -77,20 +77,20 @@ Flutter movie discovery app using TMDB API with BLoC pattern.
 - [x] Implement proper loading/error states in all BLoCs
 - [x] Upgrade `analysis_options.yaml` to stricter lints
 
-### Phase 4: UI/UX with shadcn_flutter (Priority: MEDIUM)
-- [ ] Add `shadcn_flutter` dependency
-- [ ] Create custom theme (light/dark)
-- [ ] Replace Material components with shadcn equivalents:
-  - [ ] `Card` → `ShadCard`
-  - [ ] `Button` → `ShadButton`
-  - [ ] `AppBar` → `ShadAppBar`
-  - [ ] `Dialog` → `ShadDialog`
-  - [ ] `SnackBar` → `ShadToast`
-  - [ ] `CircularProgressIndicator` → `ShadSpinner`
-  - [ ] `TextField` → `ShadInput`
-- [ ] Add shimmer loading skeleton components
-- [ ] Add error/retry state widgets
-- [ ] Implement dark mode toggle
+### Phase 4: UI/UX with shadcn_flutter (Priority: MEDIUM) ✅
+- [x] Add `shadcn_flutter` dependency
+- [x] Create custom theme (light/dark)
+- [x] Replace Material components with shadcn equivalents:
+  - [x] `Card` → `ShadCard`
+  - [x] `Button` → `ShadButton`
+  - [x] `AppBar` → `ShadAppBar`
+  - [x] `Dialog` → `ShadDialog`
+  - [x] `SnackBar` → `ShadToast`
+  - [x] `CircularProgressIndicator` → `ShadSpinner`
+  - [x] `TextField` → `ShadInput`
+- [x] Add shimmer loading skeleton components
+- [x] Add error/retry state widgets
+- [x] Implement dark mode toggle
 
 ### Phase 5: Polish & Testing (Priority: LOW)
 - [ ] Add unit tests for models & API parsing
@@ -144,8 +144,9 @@ final darkTheme = ShadThemeData.dark();
 | 2026-07-15 | Phase 1 | ✅ Complete | Security & Foundation refactored |
 | 2026-07-15 | Phase 2 | ✅ Complete | All bugs fixed |
 | 2026-07-15 | Phase 3 | ✅ Complete | Models & states improved |
+| 2026-07-15 | Phase 4 | ✅ Complete | UI/UX overhaul with shadcn_flutter |
 
 ---
 
 ## Next Action
-Start **Phase 4**: UI/UX with shadcn_flutter.
+All phases complete. Run `flutter pub get` and test the app.
