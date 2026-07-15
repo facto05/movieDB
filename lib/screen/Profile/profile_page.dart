@@ -23,70 +23,75 @@ class ProfilePage extends StatelessWidget {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Text('Error: ${state.error}'),
+                            Icon(Icons.error_outline, size: 64, color: Theme.of(context).colorScheme.error),
                             const SizedBox(height: 16),
-                            ElevatedButton(
-                              onPressed: () => context
-                                  .read<ProfileBloc>()
-                                  .add(ProfilePageLoaded()),
-                              child: const Text('Retry'),
+                            Text('Error: ${state.error}', textAlign: TextAlign.center),
+                            const SizedBox(height: 16),
+                            FilledButton.icon(
+                              onPressed: () => context.read<ProfileBloc>().add(ProfilePageLoaded()),
+                              icon: const Icon(Icons.refresh),
+                              label: const Text('Retry'),
                             ),
                           ],
                         ),
                       )
-                    : SingleChildScrollView(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Row(
-                              children: [
-                                Icon(Icons.person, size: 50),
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Column(
+                    : CustomScrollView(
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    radius: 30,
+                                    backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                                    child: const Icon(Icons.person, size: 32),
+                                  ),
+                                  const SizedBox(width: 16),
+                                  const Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("Guest",
-                                          style: TextStyle(
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold)),
-                                      Text("Guest"),
+                                      Text('Guest', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                                      Text('guest@moviedb.com'),
                                     ],
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                            const Divider(thickness: 2),
-                            _sectionTitle('Watchlist Movies'),
-                            state.watchList.isNotEmpty
+                          ),
+                          SliverToBoxAdapter(
+                            child: _sectionTitle(context, 'Watchlist Movies'),
+                          ),
+                          SliverToBoxAdapter(
+                            child: state.watchList.isNotEmpty
                                 ? SizedBox(
                                     height: 300,
                                     child: ListView.builder(
                                       itemBuilder: (context, index) =>
-                                          cardNowPlayingMovieV2(
-                                              state.watchList[index], context),
+                                          cardNowPlayingMovieV2(state.watchList[index], context),
                                       itemCount: state.watchList.length,
                                       scrollDirection: Axis.horizontal,
                                     ),
                                   )
                                 : _emptyState('No watchlist items'),
-                            _sectionTitle('Favorite Movies'),
-                            state.favouriteMovie.isNotEmpty
+                          ),
+                          SliverToBoxAdapter(
+                            child: _sectionTitle(context, 'Favorite Movies'),
+                          ),
+                          SliverToBoxAdapter(
+                            child: state.favouriteMovie.isNotEmpty
                                 ? SizedBox(
                                     height: 300,
                                     child: ListView.builder(
                                       itemBuilder: (context, index) =>
-                                          cardNowPlayingMovieV2(
-                                              state.favouriteMovie[index],
-                                              context),
+                                          cardNowPlayingMovieV2(state.favouriteMovie[index], context),
                                       itemCount: state.favouriteMovie.length,
                                       scrollDirection: Axis.horizontal,
                                     ),
                                   )
                                 : _emptyState('No favorite items'),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
           );
         },
@@ -94,18 +99,22 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Widget _sectionTitle(String text) {
+  Widget _sectionTitle(BuildContext context, String text) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Text(text,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+      child: Text(
+        text,
+        style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
+      ),
     );
   }
 
   Widget _emptyState(String text) {
     return SizedBox(
       height: 100,
-      child: Center(child: Text(text)),
+      child: Center(
+        child: Text(text, style: TextStyle(color: Colors.grey[600])),
+      ),
     );
   }
 }

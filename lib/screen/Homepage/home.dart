@@ -21,8 +21,8 @@ class _HomePageState extends State<HomePage> {
       child: BlocConsumer<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state.loading && state.listNowPlayingMovie.isEmpty) {
-            return Scaffold(
-              body: const Center(child: CircularProgressIndicator()),
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
             );
           }
 
@@ -32,11 +32,14 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Error: ${state.error}'),
+                    Icon(Icons.error_outline, size: 64, color: Theme.of(context).colorScheme.error),
                     const SizedBox(height: 16),
-                    ElevatedButton(
+                    Text('Error: ${state.error}', textAlign: TextAlign.center),
+                    const SizedBox(height: 16),
+                    FilledButton.icon(
                       onPressed: () => context.read<HomeBloc>().add(HomeLoadedEvent()),
-                      child: const Text('Retry'),
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Retry'),
                     ),
                   ],
                 ),
@@ -59,14 +62,21 @@ class _HomePageState extends State<HomePage> {
             ),
             body: RefreshIndicator(
               onRefresh: () async => context.read<HomeBloc>().add(HomeLoadedEvent()),
-              child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _sectionTitle('Now Playing'),
-                    SizedBox(
+              child: CustomScrollView(
+                slivers: [
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+                    sliver: SliverToBoxAdapter(
+                      child: Text(
+                        'Now Playing',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
                       height: 330,
                       child: ListView.builder(
                         itemBuilder: (context, index) => cardNowPlayingMovie(
@@ -75,8 +85,20 @@ class _HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                       ),
                     ),
-                    _sectionTitle('Popular Movie'),
-                    SizedBox(
+                  ),
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+                    sliver: SliverToBoxAdapter(
+                      child: Text(
+                        'Popular Movie',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(
                       height: 330,
                       child: ListView.builder(
                         itemBuilder: (context, index) => cardNowPlayingMovie(
@@ -85,31 +107,23 @@ class _HomePageState extends State<HomePage> {
                         scrollDirection: Axis.horizontal,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );
         },
         listener: (context, state) {
           if (state.isWatchlist) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('Added to Watchlist')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Added to Watchlist')),
+            );
           } else if (state.isFavorite) {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Text('Added to Favorite')));
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Added to Favorite')),
+            );
           }
         },
-      ),
-    );
-  }
-
-  Widget _sectionTitle(String text) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Text(
-        text,
-        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
       ),
     );
   }

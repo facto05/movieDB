@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shadcn_flutter/shadcn_flutter.dart';
 import 'package:movie_db/screen/Homepage/home.dart';
 
 void main() {
@@ -8,13 +9,27 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'MOVIE DB',
+    return ShadApp(
+      title: 'MovieDB',
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6366F1),
+          brightness: Brightness.light,
+        ),
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6366F1),
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
+      themeMode: ThemeMode.system,
+      home: const HomePage(),
     );
   }
 }

@@ -16,8 +16,8 @@ class MovieDetailPage extends StatelessWidget {
       child: BlocBuilder<MovieDetailBloc, MovieDetailState>(
         builder: (context, state) {
           if (state.loading) {
-            return Scaffold(
-              body: const Center(child: CircularProgressIndicator()),
+            return const Scaffold(
+              body: Center(child: CircularProgressIndicator()),
             );
           }
 
@@ -28,13 +28,14 @@ class MovieDetailPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Error: ${state.error}'),
+                    Icon(Icons.error_outline, size: 64, color: Theme.of(context).colorScheme.error),
                     const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: () => context
-                          .read<MovieDetailBloc>()
-                          .add(MovieDetailLoadedEvent(movieId)),
-                      child: const Text('Retry'),
+                    Text('Error: ${state.error}', textAlign: TextAlign.center),
+                    const SizedBox(height: 16),
+                    FilledButton.icon(
+                      onPressed: () => context.read<MovieDetailBloc>().add(MovieDetailLoadedEvent(movieId)),
+                      icon: const Icon(Icons.refresh),
+                      label: const Text('Retry'),
                     ),
                   ],
                 ),
@@ -48,74 +49,132 @@ class MovieDetailPage extends StatelessWidget {
           }
 
           return Scaffold(
-            appBar: AppBar(title: Text(movie.originalTitle)),
-            body: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Stack(children: [
-                    Image.network(
-                      movie.fullBackdropPath,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        height: 200,
-                        color: Colors.grey[300],
-                      ),
+            body: CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  expandedHeight: 300,
+                  pinned: true,
+                  flexibleSpace: FlexibleSpaceBar(
+                    title: Text(
+                      movie.originalTitle,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    Center(
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 15),
-                        width: 200,
-                        height: 200,
-                        child: Image.network(
-                          movie.fullPosterPath,
+                    background: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        Image.network(
+                          movie.fullBackdropPath,
+                          fit: BoxFit.cover,
                           errorBuilder: (_, __, ___) => Container(
-                            color: Colors.grey[300],
-                            child: const Icon(Icons.movie, size: 80),
+                            color: Theme.of(context).colorScheme.surfaceVariant,
                           ),
                         ),
-                      ),
-                    ),
-                  ]),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          movie.originalTitle,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 25),
-                        ),
-                        Row(
-                          children: [
-                            const Icon(Icons.star_border_outlined),
-                            Text('${movie.voteAverage.ceil()}/10'),
-                          ],
-                        ),
-                        const Text('Synopsis',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        Text(movie.synopsis),
-                        const SizedBox(height: 50),
-                        const Text('Similar Movies',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20)),
-                        SizedBox(
-                          height: 300,
-                          child: ListView.builder(
-                            itemBuilder: (context, index) =>
-                                cardNowPlayingMovieV2(
-                                    state.similarMovie[index], context),
-                            itemCount: state.similarMovie.length,
-                            scrollDirection: Axis.horizontal,
+                        const DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [Colors.transparent, Colors.black54],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+                SliverToBoxAdapter(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                movie.fullPosterPath,
+                                width: 120,
+                                height: 180,
+                                fit: BoxFit.cover,
+                                errorBuilder: (_, __, ___) => Container(
+                                  width: 120,
+                                  height: 180,
+                                  color: Theme.of(context).colorScheme.surfaceVariant,
+                                  child: const Icon(Icons.movie, size: 48),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Icon(Icons.star, color: Colors.amber, size: 20),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        '${movie.voteAverage.toStringAsFixed(1)}/10',
+                                        style: Theme.of(context).textTheme.titleMedium,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Wrap(
+                                    spacing: 8,
+                                    children: movie.genres
+                                        .map((g) => Chip(label: Text(g.name)))
+                                        .toList(),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Synopsis',
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(movie.synopsis),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Text(
+                          'Similar Movies',
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 300,
+                    child: ListView.builder(
+                      itemBuilder: (context, index) =>
+                          cardNowPlayingMovieV2(state.similarMovie[index], context),
+                      itemCount: state.similarMovie.length,
+                      scrollDirection: Axis.horizontal,
+                    ),
+                  ),
+                ),
+              ],
             ),
           );
         },
